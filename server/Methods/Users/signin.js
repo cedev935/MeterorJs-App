@@ -14,110 +14,63 @@ Meteor.methods({
     async 'user.signup'  (data) {
 
   
-  const user = new User({
+  var user = new UsersCollection({
     username: data.username,
     email: data.email,
-    password: bcrypt.hashSync(data.password, 8)
+    password: bcrypt.hashSync(data.password, 8),
+    role:"User"
   });
 
-  user.save((err, user) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
+  user.insert((err, user) => {
+    if (user) {
+       return { message: "Blogger registered successfully!" }
+   
+    }else{
+        throw new Meteor.Error('server error');
+      
     }
 
-    if (data.roles) {
-      Role.find(
-        {
-          name: { $in: data.roles }
-        },
-        (err, roles) => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          user.roles = roles.map(role => role._id);
-          user.save(err => {
-            if (err) {
-              res.status(500).send({ message: err });
-              return;
-            }
-
-            res.send({ message: "User was registered successfully!" });
-          });
-        }
-      );
-    } else {
-      Role.findOne({ name: "user" }, (err, role) => {
-        if (err) {
-          res.status(500).send({ message: err });
-          return;
-        }
-
-        user.roles = [role._id];
-        user.save(err => {
-          if (err) {
-            res.status(500).send({ message: err });
-            return;
-          }
-
-          res.send({ message: "User was registered successfully!" });
-        });
-      });
-    }
+  
   });
 },
 
 
 
-
-
-
-
 async 'user.signin'  (data) {
-  User.findOne({
-    username: data.username
+ const checkuser=await  UsersCollection.findOne({
+    email: data.email
   })
-    .populate("roles", "-__v")
-    .exec((err, user) => {
-      if (err) {
-        res.status(500).send({ message: err });
-        return;
-      }
 
-      if (!user) {
-        return res.status(404).send({ message: "User Not found." });
+      if (!checkuser||checkuser==null) {
+        return {message:"Blogger not Found"}
       }
 
       var passwordIsValid = bcrypt.compareSync(
         data.password,
-        user.password
+        checkuser.password
       );
 
       if (!passwordIsValid) {
-        return res.status(401).send({
+        return {
           accessToken: null,
           message: "Invalid Password!"
-        });
+        }
       }
 
-      var token = jwt.sign({ id: user.id }, config.secret, {
+      var token = jwt.sign({ email: checkuser.email, username: checkuser.username, }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
-      var authorities = [];
+     
 
-      for (let i = 0; i < user.roles.length; i++) {
-        authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-      }
+    
       res.status(200).send({
-        id: user._id,
-        username: user.username,
-        email: user.email,
-        roles: authorities,
+      
+        username: checkuser.username,
+        email: checkuser.email,
+        roles: checkuser.role,
         accessToken: token
       });
-    });
+  
 }
 })
