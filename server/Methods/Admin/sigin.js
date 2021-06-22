@@ -8,10 +8,10 @@ var bcrypt = require("bcryptjs");
 
 
 import { Meteor } from 'meteor/meteor';
-import { UsersCollection} from '../../../client/imports/db/Users/Users';
+import { UsersCollection} from '../../../imports/db/Users/Users';
 
 Meteor.methods({
-    async 'user.signup'  (data) {
+    async 'admin.signup'  (data) {
 
   
   var user = new UsersCollection({
@@ -36,7 +36,7 @@ Meteor.methods({
 
 
 
-async 'user.signin'  (data) {
+async 'admin.signin'  (data) {
  const checkuser=await  UsersCollection.findOne({
     email: data.email
   })

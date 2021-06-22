@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor';
-import { BlogsCollection} from '../../../client/imports/db/Blogs/blogs';
+import { BlogsCollection} from '../../../imports/db/Blogs/blogs';
 
 
 Meteor.methods({

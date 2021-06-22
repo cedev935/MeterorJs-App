@@ -13,12 +13,6 @@
     "jquery": "^3.5.1",
     "jsonwebtoken": "^8.5.1",
     "meteor-node-stubs": "^1.0.1"
-  },
-  "meteor": {
-    "mainModule": {
-      "client": "client/main.js",
-      "server": "server/main.js"
-    },
-    "testModule": "tests/main.js"
   }
+
 }
