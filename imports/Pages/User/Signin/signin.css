@@ -125,3 +125,12 @@ input[type=submit]:hover {
     text-align: center;
   }
 }
+
+
+.form-btn {
+  padding: 10px 20px;
+  background-color: dodgerblue;
+  border: 1px solid #ddd;
+  color: white;
+  cursor: pointer;
+}

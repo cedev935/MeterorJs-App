@@ -15,24 +15,23 @@ Meteor.methods({
     async 'user.signup'  (data) {
 
   
-  var user = new UsersCollection({
-    username: data.username,
+  var user = UsersCollection.insert({
+  
     email: data.email,
     password: bcrypt.hashSync(data.password, 8),
     role:"User"
   });
-
-  user.insert((err, user) => {
+console.log(user);
+  
     if (user) {
-       return { message: "Blogger registered successfully!" }
+  
+       return {id:user,email:data.email, success:true, message: "Blogger registered successfully!" }
    
     }else{
-        throw new Meteor.Error('server error');
-      
+     throw new Meteor.Error('server error');
     }
 
-  
-  });
+ 
 },
 
 
@@ -43,7 +42,7 @@ async 'user.signin'  (data) {
   })
 
       if (!checkuser||checkuser==null) {
-        return {message:"Blogger not Found"}
+        return {token:null,message:"Blogger not Found"}
       }
 
       var passwordIsValid = bcrypt.compareSync(
@@ -58,20 +57,20 @@ async 'user.signin'  (data) {
         }
       }
 
-      var token = jwt.sign({ email: checkuser.email, username: checkuser.username, }, config.secret, {
+      var token = jwt.sign({ email: checkuser.email }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
      
 
     
-      res.status(200).send({
+      return {
       
-        username: checkuser.username,
+      id:checkuser._id,
         email: checkuser.email,
         roles: checkuser.role,
         accessToken: token
-      });
+      }
   
 }
 })

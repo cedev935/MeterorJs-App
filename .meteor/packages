@@ -26,3 +26,6 @@ hot-module-replacement@0.2.0  # Update code in development without reloading the
 blaze-hot               # Update files using Blaze's API with HMR
 kadira:blaze-layout
 kadira:flow-router
+accounts-ui
+accounts-google
+service-configuration

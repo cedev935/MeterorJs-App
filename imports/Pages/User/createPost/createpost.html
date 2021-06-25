@@ -1,14 +1,14 @@
-<template name="userposts">
-    <h1>UserBlogs</h1> <button class='create'>Create Blog</button>
+<template name="createpost">
+    <h1>UserBlogs</h1>
   
-<!-- {{> addblog}} -->
-{{> blogs}}
+{{> addblog}}
+<!-- {{> blogs}} -->
 
 </template>
 
 
 
-<!-- 
+
 <template name="addblog">
     <h4>Add Blogs</h4>
  
@@ -17,25 +17,25 @@
 </div>
   <button class="add">ADD</button>
   
-</template> -->
+</template>
 
 
-
+<!-- 
 <template name="blogs">
 
     <h4>Blogs</h4>
     
     {{#each blogs}}
  
-        <span>{{{blog}}}</span>
-        <!-- <span innerHtml={{blog}}></span> -->
+        <h1>{{{blog}}}</h1>
+    
    
         <p><button  class='edit'>Edit</button><button class='delete'>Delete</button></p>
         
      
       {{/each}}
      
-   </template>
+   </template> -->
 
 
 

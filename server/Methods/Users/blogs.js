@@ -3,51 +3,63 @@ import { BlogsCollection} from '../../../imports/db/Blogs/blogs';
 
 
 Meteor.methods({
-    async 'blog.add'  (data) {
-      var player=data.player;
-      var score=data.score;
-      console.log(data)
-      var id=await BlogsCollection.insert({
-          player,
-          score,
-          createdAt: new Date(),
-      });
-      if(id){
-          return id;
-      }
-      else{
-        throw new Meteor.Error('server error');
-      }        
-    },
-    async 'blog.update'  (data) {
-      var id=data.id;
-      var player=data.player;
-      var score=data.score;
-      var id=await BlogsCollection.update(
-        { _id: id },
-        {
-          $set: {
-            player,
-            score,
-          }
-        }
-     )
-      
-      if(id){
-          return id;
-      }
-      else{
-        throw new Meteor.Error('server error');
-      }        
-    },
-    async 'blog.remove'(playerId) {
-      console.log(playerId);
-  
+  async 'blog.add'  (data) {
+    var blog=data.blog;
+
+    var id=await BlogsCollection.insert({
+        blog,
+        userid:data.uid,
+     createdAt: new Date(),
+    });
+    if(id){
+        return id;
+    }
+    else{
+      throw new Meteor.Error('server error');
+    }        
+  },
+  async 'blog.update'  (data) {
+    var id=data.id;
+    var blog=data.blog;
     
+    var id=await BlogsCollection.update(
+      { _id: id },
+      {
+        $set: {
+          blog,
   
-      await BlogsCollection.remove(playerId);
-    },
+        }
+      }
+   )
+    
+    if(id){
+        return id;
+    }
+    else{
+      throw new Meteor.Error('server error');
+    }        
+  },
+  async 'blog.remove'(blogId) {
+    console.log(blogId);
 
-  
-  });
+    const blog = BlogsCollection.findOne({ _id: blogId });
+    
+    if (!blog) {
+      throw new Meteor.Error('Access denied.');
+    }
 
+    await BlogsCollection.remove(blogId);
+  },
+  async 'blog.edit'(blogId) {
+    console.log(blogId);
+
+    const blog = BlogsCollection.findOne({ _id: blogId });
+    
+    if (!blog) {
+      throw new Meteor.Error('Access denied.');
+    }
+
+    return blog;
+  },
+
+});
