@@ -2,8 +2,6 @@ import { Template } from 'meteor/templating';
 
 import { BlogsCollection} from '../../../../imports/db/Blogs/blogs';
 
-import Quill from 'Quill';
-
 import './posts.html';
 import './posts.css';
 

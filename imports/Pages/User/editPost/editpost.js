@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
 
 
-import Quill from 'Quill';
+
+
 
 import './editpost.html';
 import './editpost.css';
@@ -14,34 +15,34 @@ var id=""
 Template.editblog.onRendered(function () {
     // counter starts at 0
 
-    quill = new Quill('#editor', {
-        theme: 'snow',
-        modules :{
-            toolbar: [
-              ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-              ['blockquote', 'code-block'],
+    // quill = new Quill('#editor', {
+    //     theme: 'snow',
+    //     modules :{
+    //         toolbar: [
+    //           ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    //           ['blockquote', 'code-block'],
           
-              [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-              [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-              [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-              [{ 'direction': 'rtl' }],                         // text direction
+    //           [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+    //           [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+    //           [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+    //           [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+    //           [{ 'direction': 'rtl' }],                         // text direction
           
-              [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    //           [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+    //           [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
           
-              [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-              [{ 'font': [] }],
-              [{ 'align': [] }],
+    //           [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+    //           [{ 'font': [] }],
+    //           [{ 'align': [] }],
           
-              ['clean'],                                         // remove formatting button
+    //           ['clean'],                                         // remove formatting button
           
-              ['link', 'image', 'video']                         // link and image, video
-            ]
-          },
-        placeholder: 'Please Add the Image/Video first and Add the Content',
+    //           ['link', 'image', 'video']                         // link and image, video
+    //         ]
+    //       },
+    //     placeholder: 'Please Add the Image/Video first and Add the Content',
         
-        })
+    //     })
 
 
     
@@ -52,7 +53,7 @@ Template.editblog.onRendered(function () {
                             alert(err);
                         }
                         else{
-                            quill.root.innerHTML=post.blog;
+                             document.getElementById("editor").innerHTML=post.blog;
                         
                             id=post._id;
                           
@@ -78,12 +79,8 @@ Template.editblog.onRendered(function () {
 Template.editblog.events({
     'click .edit':function (event){
         
-        var blog  = quill.root.innerHTML;
-        
-        console.log(blog)
-        console.log(quill.getContents())
-        console.log(quill.getText())
-
+        var blog  = document.getElementById("editor").innerHTML;
+     
 
         //alert(update+id);
    
@@ -92,7 +89,7 @@ Template.editblog.events({
                alert(err);
             }
             else{
-                quill.root.innerHTML="";
+                 document.getElementById("editor").innerHTML="";
                 FlowRouter.go(`/UserPost`);
               
             }
@@ -119,7 +116,7 @@ Template.editblog.events({
 //                 alert(err);
 //             }
 //             else{
-//                 quill.root.innerHTML=post.blog;
+//                  document.getElementById("editor")=post.blog;
             
 //                 id=post._id;
 //                 update=true;
